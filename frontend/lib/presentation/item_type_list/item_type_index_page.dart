@@ -33,9 +33,40 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemBuilder: (context, index) {
                         ItemType itemType = state.itemTypes[index];
                         return Card(
+                          color: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: BorderSide(color: Colors.purple, width: 1),
+                          ),
                           child: ListTile(
-                            title: Text(itemType.title),
-                            subtitle: Text(itemType.gendre!),
+                            title: Text(
+                              itemType.title,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  itemType.gendre ?? '',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[300],
+                                  ),
+                                ),
+                                Text(
+                                  itemType.author,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              ],
+                            ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -123,7 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
               child: Icon(Icons.add),
-              backgroundColor: const Color.fromARGB(255, 207, 148, 217),
+              backgroundColor: const Color.fromARGB(255, 82, 56, 128),
+              foregroundColor: Colors.white,
             ),
           );
         },
