@@ -104,16 +104,33 @@ app.put("/novel_type/:id", (req, res) => {
   });
 });
 
-//DELETE data novels by id
-app.delete('/novel_type/:id', (req, res) => {
-  pool.getConnection((err, connection) =>{
-    connection.query('DELETE from tbtype where id =?', [req.params.id], (err,rows) =>{
-      res.end(JSON.stringify({message : 'Item Type Unsuccessfully deleted...'}))
-      console.log(err);
-      
-    })
-  })
-})
+//DELETE data tbtype by id
+app.delete("/novel_type/:id", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) throw err;
+    console.log(`connected as id ${connection.threadId}`);
+
+    connection.query(
+      "DELETE from novels where id = ?",
+      [req.params.id],
+      (err, rows) => {
+        connection.release();
+
+        if (!err) {
+          res.end(
+            JSON.stringify({ message: "Item Type Successfully deleted..." })
+          );
+        } else {
+          res.end(
+            JSON.stringify({ message: "Item Type Unsuccessfully deleted..." })
+          );
+          console.log(err);
+        }
+      }
+    );
+  });
+});
+
 
 // // //Listen on environtment port or 5000
 // app.listen(port, () => {

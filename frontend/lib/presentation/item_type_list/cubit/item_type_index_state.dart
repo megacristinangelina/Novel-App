@@ -10,4 +10,12 @@ final class ItemTypeIndexLoaded extends ItemTypeIndexState {
   ItemTypeIndexLoaded({required this.itemTypes});
 }
 
+class ItemTypeIndexError extends ItemTypeIndexState {
+  final String message;
+  ItemTypeIndexError({required this.message});
+}
+
+class ItemTypeIndexLoading extends ItemTypeIndexState {}
+
+
 

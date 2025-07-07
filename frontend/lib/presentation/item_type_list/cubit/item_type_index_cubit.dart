@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos/core/item_type_repository.dart';
 import 'package:flutter_pos/data/index_response.dart';
@@ -15,8 +16,31 @@ class ItemTypeIndexCubit extends Cubit<ItemTypeIndexState> {
   }
 
   void index() async {
-    IndexResponse result = await itemTypeRepository.index();
-    debugPrint("Hasil ${result.itemTypes.length}");
-    emit(ItemTypeIndexLoaded(itemTypes: result.itemTypes));
+    emit(ItemTypeIndexLoading());
+    try {
+      IndexResponse result = await itemTypeRepository.index();
+      debugPrint("Hasil ${result.itemTypes.length}");
+      emit(ItemTypeIndexLoaded(itemTypes: result.itemTypes));
+    } on DioError {
+      emit(ItemTypeIndexError(message: "Server tidak terhubung"));
+    } catch (e) {
+      emit(ItemTypeIndexError(message: e.toString()));
+    }
+  }
+
+  Future<void> delete(int id) async {
+    try {
+      await itemTypeRepository.delete(id);
+      final result = await itemTypeRepository
+          .index(); // ambil ulang data langsung
+      emit(ItemTypeIndexLoaded(itemTypes: result.itemTypes)); // update tampilan
+    } on DioError {
+      emit(
+        ItemTypeIndexError(message: "Gagal menghapus, server tidak terhubung"),
+      );
+    } catch (e) {
+      emit(ItemTypeIndexError(message: e.toString()));
+    }
   }
 }
+
