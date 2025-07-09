@@ -191,6 +191,9 @@ class _EditItemPageState extends State<EditItemPage> {
                   SizedBox(height: 24),
                   Center(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 82, 56, 128),
+                      ),
                       onPressed: () {
                         final title = titleController.text.trim();
                         final author = authorController.text.trim();

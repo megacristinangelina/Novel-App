@@ -89,20 +89,50 @@ class _MyHomePageState extends State<MyHomePage> {
                                     bool confirmed = await showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        title: Text('Konfirmasi'),
+                                        backgroundColor: const Color.fromARGB(
+                                          255,
+                                          62,
+                                          62,
+                                          62,
+                                        ),
+                                        title: Text(
+                                          'Confirmation',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                         content: Text(
-                                          'Yakin ingin menghapus item ini?',
+                                          'Are you sure you want to delete this novel?',
+                                          style: TextStyle(color: Colors.white),
                                         ),
                                         actions: [
                                           TextButton(
                                             onPressed: () =>
                                                 Navigator.pop(context, false),
-                                            child: Text('Batal'),
+                                            child: Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  132,
+                                                  108,
+                                                  172,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                           TextButton(
                                             onPressed: () =>
                                                 Navigator.pop(context, true),
-                                            child: Text('Hapus'),
+                                            child: Text(
+                                              'Delete',
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  132,
+                                                  108,
+                                                  172,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -135,22 +165,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                return const SizedBox(); // fallback jika state tidak dikenali
+                return const SizedBox();
               },
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        AddItemTypePage(), // ✅ ganti ke halaman tambah
-                  ),
+                  MaterialPageRoute(builder: (_) => AddItemTypePage()),
                 );
                 if (result != null) {
-                  context
-                      .read<ItemTypeIndexCubit>()
-                      .index(); // refresh setelah tambah
+                  context.read<ItemTypeIndexCubit>().index();
                 }
               },
               child: Icon(Icons.add),
